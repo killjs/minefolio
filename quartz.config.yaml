@@ -106,7 +106,7 @@ plugins:
     enabled: false
     order: 92
   - source: github:quartz-community/remove-draft
-    enabled: true
+    enabled: false
   - source: github:quartz-community/explicit-publish
     enabled: false
   - source: github:quartz-community/unlisted-pages
