@@ -1,1 +1,1 @@
-﻿{"cleanUrls":true}
+﻿{"cleanUrls":true,"buildCommand":"npx quartz build","outputDirectory":"public","installCommand":"npm install"}
