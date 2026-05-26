@@ -1,0 +1,187 @@
+// ── Binder-style stacked pages ─────────────────────────────────────────
+// Obsidian-inspired stacked tabs styling
+
+#stacked-pages-container {
+  // Only show when binder is active (2+ tabs)
+  &:not(.binder-active) {
+    display: none;
+  }
+
+  &.binder-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+}
+
+// ── Content push — make room for tab strips instead of overlaying ────
+// The JS toggles .has-binder-left / .has-binder-right on <body>
+$binder-width: 40px;
+
+body.has-binder-left .page {
+  padding-left: $binder-width;
+}
+
+body.has-binder-right .page {
+  padding-right: $binder-width;
+}
+
+// ── Tab strips ──────────────────────────────────────────────────────────
+
+.binder-strip {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  justify-content: stretch;
+  align-items: stretch;
+  z-index: 100;
+  width: 40px;
+  height: 100%;
+}
+
+.binder-strip-left {
+  align-self: flex-start;
+}
+
+.binder-strip-right {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+// ── Individual tab ──────────────────────────────────────────────────────
+
+.binder-tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 0;
+  cursor: pointer;
+  background: var(--lightgray);
+  border: 1px solid var(--lightgray);
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    border-color 0.15s ease;
+  width: 100%;
+  flex: 1;
+  position: relative;
+  writing-mode: vertical-lr;
+  overflow: hidden;
+
+  &:hover {
+    background: var(--light);
+  }
+}
+
+// ── Active Tab (The one matching current page) ──────────────────────────
+.binder-tab.binder-tab-active {
+  background: var(--light); // Match page background
+  z-index: 101;
+  cursor: default;
+
+  // Active accent on outward edge
+  &.binder-tab-left {
+    border-right: none; // Blend with page
+    border-left: 3px solid var(--secondary);
+    border-radius: 6px 0 0 6px;
+  }
+
+  &.binder-tab-right {
+    border-left: none; // Blend with page
+    border-right: 3px solid var(--secondary);
+    border-radius: 0 6px 6px 0;
+  }
+}
+
+// ── Inactive Tabs ───────────────────────────────────────────────────────
+.binder-tab:not(.binder-tab-active) {
+  color: var(--gray);
+
+  &.binder-tab-left {
+    border-radius: 6px 0 0 6px;
+    // Accent on content-facing edge (Right)
+    border-right: 2px solid var(--secondary);
+    border-left: 1px solid var(--lightgray);
+
+    &:hover {
+      transform: translateX(4px);
+    }
+  }
+
+  &.binder-tab-right {
+    border-radius: 0 6px 6px 0;
+    // Accent on content-facing edge (Left)
+    border-left: 2px solid var(--secondary);
+    border-right: 1px solid var(--lightgray);
+
+    &:hover {
+      transform: translateX(-4px);
+    }
+  }
+}
+
+// ── Spine accent bar (Hidden, using borders) ────────────────────────────
+.binder-spine {
+  display: none;
+}
+
+// ── Label ───────────────────────────────────────────────────────────────
+.binder-label {
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--darkgray);
+  user-select: none;
+
+  // Rotate to read bottom-to-top
+  transform: rotate(180deg);
+  text-align: left;
+}
+
+.binder-tab-active .binder-label {
+  font-weight: bold;
+  color: var(--dark);
+}
+
+// ── Close button ────────────────────────────────────────────────────────
+.binder-close {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--gray);
+  padding: 2px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
+
+  // Rotate to match vertical text orientation
+  transform: rotate(180deg);
+
+  &:hover {
+    color: var(--dark);
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+}
+
+.binder-tab:hover .binder-close {
+  opacity: 1;
+}
