@@ -1,6 +1,7 @@
----
-title: Welcome to Quartz
+﻿---
+draft: false
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+# 홈
+
+- [테스트 페이지](/test)
